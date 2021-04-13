@@ -1,48 +1,34 @@
 package Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 import java.security.SecureRandom;
 
 @Entity
+@Table(name="user")
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
+    @Column(name="username")
+    @Basic
     private String username;
+
+
+    @Column(name="password")
+    @Basic
     private String password;
+
+    @Column(name="token")
+    @Basic
     private String token = "";
+
     private static final int TOKEN_LENGTH = 20;
-
-    public User(String username, String password){
-        this.username = username;
-        this.password = password;
-        this.token = "";
-    }
-    public User(){}
-    public String getUsername(){
-        return this.username;
-    }
-
-    public String getPassword(){
-        return this.password;
-    }
-
-    public String getToken(){
-        return this.token;
-    }
-
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public void setPassword(String password){
-        this.password = password;
-    }
-
-    public String toString() {
-        return String.format("Username: %s, Password: %s",
-                this.getUsername(), this.getPassword());
-    }
 
     public void generateToken(){
         String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";

@@ -9,7 +9,8 @@ USE poketext;
 create table user
 (
   username  varchar(50) null,
-  password varchar(50) null
+  password varchar(50) null,
+  token varchar(50) null
 );
 
 create table pokemon

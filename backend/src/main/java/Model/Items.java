@@ -1,45 +1,26 @@
 package Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
+@Table(name="items")
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Items {
 
     @Id
+    @Column(name="name")
+    @Basic
     private String name;
-    private int hpRecovered;
 
-    public Items(String name, int hpRecovered) {
-        this.name = name;
-        this.hpRecovered = hpRecovered;
-    }
+    // To confirm what this is going to be about
+    @Column(name="attributes")
+    @Basic
+    private int attributes;
 
-    public Items() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getHpRecovered() {
-        return hpRecovered;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setHpRecovered(int hpRecovered) {
-        this.hpRecovered = hpRecovered;
-    }
-
-    @Override
-    public String toString() {
-        return "Items{" +
-                "name='" + name + '\'' +
-                ", hpRecovered=" + hpRecovered +
-                '}';
-    }
 }

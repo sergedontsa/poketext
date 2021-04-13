@@ -1,63 +1,33 @@
 package Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
+@Table(name="pokemon")
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pokemon {
 
     @Id
+    @Column(name = "name")
+    @Basic
     private String name;
+
     private final int level = 50;
+
+    @Column(name = "hp")
+    @Basic
     private int hp;
+
+    @Column(name = "sprite")
+    @Basic
     private byte[] sprite;
 
-    public Pokemon(String name, int hp, byte[] sprite) {
-        this.name = name;
-        this.hp = hp;
-        this.sprite = sprite;
-    }
-
-    public Pokemon() {
-
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public void setSprite(byte[] sprite) {
-        this.sprite = sprite;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public byte[] getSprite() {
-        return sprite;
-    }
-
-    @Override
-    public String toString() {
-        return "Pokemon{" +
-                "name='" + name + '\'' +
-                ", level=" + level +
-                ", hp=" + hp +
-                ", sprite=" + Arrays.toString(sprite) +
-                '}';
-    }
 }
+
