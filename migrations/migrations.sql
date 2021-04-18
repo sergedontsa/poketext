@@ -17,7 +17,7 @@ create table pokemon
 (
   name varchar(50) null,
   hp  int ,
-  sprite BLOB
+  sprite varchar(250) null
 );
 
 create table moves

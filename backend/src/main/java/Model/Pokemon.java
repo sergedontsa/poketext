@@ -3,7 +3,7 @@ package Model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name="pokemon")
@@ -27,7 +27,10 @@ public class Pokemon {
 
     @Column(name = "sprite")
     @Basic
-    private byte[] sprite;
+    private String sprite;
+
+    @OneToMany
+    private List<Moves> moves;
 
 }
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Transactional
 @RestController
-@RequestMapping(value = "/items")
+@RequestMapping(value = "/item")
 public class ItemController {
     @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Items> getAll(){
