@@ -7,6 +7,7 @@ import com.soen487.poketext.PokeAPI.PokeAPI;
 import com.soen487.poketext.Repository.PokemonRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +32,13 @@ public class PokemonController {
     }
 
 
-    // choose pokemon dynamically
+    //TODO: implement have unique pokemon per UserID
     @PostMapping(value="/choose/{pokemonToChoose}")
-    public @ResponseBody String choosePokemon(@PathVariable String pokemonToChoose){
+    public @ResponseBody String choosePokemon(@RequestHeader HttpHeaders headers, @PathVariable String pokemonToChoose){
         JSONObject pokemonJSON = new PokeAPI().getPokemon(pokemonToChoose);
         Pokemon pokemon = new APIMapper().jsonToPokemon(pokemonJSON);
         this.pokemonRepository.save(pokemon);
-        return "Pokemon Chosen";
+        return "Pokemon chosen";
     }
 
 }
