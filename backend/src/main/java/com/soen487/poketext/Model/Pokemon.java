@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.List;
+
+
 @Entity
 @Table(name="pokemon")
 @Setter
@@ -20,6 +23,8 @@ public class Pokemon {
 
     private final int level = 50;
 
+//    private final int level = 50;
+
     @Column(name = "hp")
     @Basic
     private int hp;
@@ -27,6 +32,12 @@ public class Pokemon {
     @Column(name = "sprite")
     @Basic
     private byte[] sprite;
+
+    private String sprite;
+
+    @OneToMany
+    private List<Move> moves;
+
 
 }
 
