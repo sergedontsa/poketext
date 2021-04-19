@@ -1,4 +1,4 @@
-package Model;
+package com.soen487.poketext.Model;
 
 import lombok.*;
 
@@ -19,7 +19,7 @@ public class Pokemon {
     @Basic
     private String name;
 
-    private final int level = 50;
+//    private final int level = 50;
 
     @Column(name = "hp")
     @Basic
@@ -30,7 +30,7 @@ public class Pokemon {
     private String sprite;
 
     @OneToMany
-    private List<Moves> moves;
+    private List<Move> moves;
 
 }
 

@@ -8,30 +8,44 @@ USE poketext;
 
 create table user
 (
-  username  varchar(50) null,
-  password varchar(50) null,
-  token varchar(50) null
+    userid int(11) not null auto_increment,
+    username  varchar(50) null,
+    password varchar(50) null,
+    token varchar(50) null,
+    primary key (userid)
 );
 
 create table pokemon
 (
-  name varchar(50) null,
-  hp  int ,
-  sprite varchar(250) null
+    pokemonid int(11) not null auto_increment,
+    name varchar(50) null,
+    hp  int ,
+    sprite varchar(250) null,
+#     userid int not null,
+    primary key (pokemonid)
+#     foreign key (userid) REFERENCES user(userid)
 );
 
-create table moves
+create table move
 (
-  name varchar(50) null,
-  accuracy int ,
-  effect_chance int ,
-  pp int ,
-  priority int ,
-  damage int
+    moveid int(11) not null auto_increment,
+    name varchar(50) null,
+    accuracy int ,
+    effect_chance int ,
+    pp int ,
+    priority int ,
+    damage int,
+    pokemonid int,
+    primary key (moveid),
+    foreign key (pokemonid) references pokemon(pokemonid)
 );
 
-create table items
+create table item
 (
-  name varchar(50) ,
-  attributes varchar(50)
+    itemid int(11) not null auto_increment,
+    name varchar(50) ,
+    attributes varchar(50),
+    userid int not null,
+    primary key (itemid),
+    foreign key (userid) references user(userid)
 );
