@@ -10,6 +10,7 @@ public class PoketextApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PoketextApplication.class, args);
+
 	}
 
 }
