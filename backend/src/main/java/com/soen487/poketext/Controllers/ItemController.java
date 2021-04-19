@@ -1,6 +1,6 @@
-package Controllers;
+package com.soen487.poketext.Controllers;
 
-import Model.Items;
+import com.soen487.poketext.Model.Item;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,8 @@ import java.util.List;
 @RequestMapping(value = "/item")
 public class ItemController {
     @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Items> getAll(){
+    public List<Item> getAll(){
         return null;
     }
+
 }

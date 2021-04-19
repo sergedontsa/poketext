@@ -1,4 +1,4 @@
-package Model;
+package com.soen487.poketext.Model;
 
 import lombok.*;
 

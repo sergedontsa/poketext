@@ -1,17 +1,17 @@
-package Model;
+package com.soen487.poketext.Model;
 
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="moves")
+@Table(name="move")
 @Setter
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Moves {
+public class Move {
 
     @Id
     @Column(name="name")
@@ -26,7 +26,7 @@ public class Moves {
     @Basic
     private int effect_chance;
 
-    // Also referred as power in the PokeAPI
+    // Also referred as power in the com.soen487.poketext.PokeAPI
     @Column(name="damage")
     @Basic
     private int damage;

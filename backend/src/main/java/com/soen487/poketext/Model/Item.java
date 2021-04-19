@@ -1,17 +1,17 @@
-package Model;
+package com.soen487.poketext.Model;
 
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="items")
+@Table(name="item")
 @Setter
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Items {
+public class Item {
 
     @Id
     @Column(name="name")

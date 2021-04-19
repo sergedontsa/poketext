@@ -1,4 +1,4 @@
-package Controllers;
+package com.soen487.poketext.Controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

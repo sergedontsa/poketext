@@ -1,4 +1,4 @@
-package PokeAPI;
+package com.soen487.poketext.PokeAPI;
 
 
 import com.mashape.unirest.http.HttpResponse;
