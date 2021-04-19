@@ -1,9 +1,12 @@
 package com.soen487.poketext.Controllers;
 
+import com.soen487.poketext.Model.User;
+import com.soen487.poketext.Repository.UserRepository;
 import com.soen487.poketext.Utils.JwtUtil;
 import com.soen487.poketext.Model.AuthenticationRequest;
 import com.soen487.poketext.Model.AuthenticationResponse;
 import com.soen487.poketext.Service.UserDetailService;
+import com.soen487.poketext.Utils.PasswordUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +14,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.OptionalInt;
 
 
 @RestController
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -28,10 +35,17 @@ public class UserController {
     @Autowired
     private final JwtUtil jwtTokenUtil;
 
-    public UserController(AuthenticationManager authenticationManager, UserDetailService userDetailService, JwtUtil jwtTokenUtil) {
+    @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UserController(AuthenticationManager authenticationManager, UserDetailService userDetailService, JwtUtil jwtTokenUtil, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.userDetailService = userDetailService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.userRepository = userRepository;
     }
 
     @PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,17 +61,32 @@ public class UserController {
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getUsername()));
+        //String rs = "username : " +userDetails.getUsername() + " Password: " + userDetails.getPassword();
+        //return ResponseEntity.ok(new AuthenticationResponse(rs));
 
     }
 
-    @PostMapping(value="register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String createUser(@RequestParam("username") String username, @RequestParam("password") String password){
-        return "";
+    @PostMapping(value="/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createUser(@RequestBody User user) throws Exception {
+        if (this.userRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new Exception("Username is taken");
+        }else {
+            User new_user = new User(user.getUsername(), PasswordUtilities.passwordEncoding(user.getPassword()));
+            this.userRepository.save(new_user);
+        }
     }
 
-    @PostMapping(value="login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void login(@RequestParam("username") String username, @RequestParam("password") String password){
+    @PostMapping(value="/login/{username}/{password}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public boolean login(@PathVariable("username") String username, @PathVariable("password") String password){
+        Optional<User> optionalUser = this.userRepository.findByUsername(username);
+
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            return PasswordUtilities.isPasswordMatch(password, user.getPassword());
+        }
+        return false;
+
 
     }
 

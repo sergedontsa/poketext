@@ -11,5 +11,5 @@ import java.io.Serializable;
 @Setter
 public class AuthenticationResponse implements Serializable {
     private final String jwt;
-
+    private final String username;
 }
