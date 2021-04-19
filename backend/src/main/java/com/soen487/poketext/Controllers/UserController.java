@@ -23,7 +23,7 @@ import java.util.OptionalInt;
 
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping
 public class UserController {
 
     @Autowired
@@ -77,13 +77,13 @@ public class UserController {
         }
     }
 
-    @PostMapping(value="/login/{username}/{password}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public boolean login(@PathVariable("username") String username, @PathVariable("password") String password){
-        Optional<User> optionalUser = this.userRepository.findByUsername(username);
+    @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public boolean login(@RequestBody User user){
+        Optional<User> optionalUser = this.userRepository.findByUsername(user.getUsername());
 
         if (optionalUser.isPresent()){
-            User user = optionalUser.get();
-            return PasswordUtilities.isPasswordMatch(password, user.getPassword());
+            User row_user = optionalUser.get();
+            return PasswordUtilities.isPasswordMatch(user.getPassword(), row_user.getPassword());
         }
         return false;
 
