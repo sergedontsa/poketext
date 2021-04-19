@@ -6,6 +6,11 @@ import javax.persistence.*;
 import java.security.SecureRandom;
 
 @Entity
+@Table(name="user",
+uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username")
+})
+
 @Table(name="user")
 @Setter
 @Getter
@@ -14,7 +19,17 @@ import java.security.SecureRandom;
 @NoArgsConstructor
 public class User {
 
+
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    @Basic
+    private int user_id;
+
+
+    @Id
+
     @Column(name="username")
     @Basic
     private String username;
@@ -23,6 +38,11 @@ public class User {
     @Column(name="password")
     @Basic
     private String password;
+
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
 
     @Column(name="token")
     @Basic

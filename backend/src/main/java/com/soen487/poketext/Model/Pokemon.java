@@ -3,7 +3,9 @@ package com.soen487.poketext.Model;
 import lombok.*;
 
 import javax.persistence.*;
+
 import java.util.List;
+
 
 @Entity
 @Table(name="pokemon")
@@ -19,6 +21,8 @@ public class Pokemon {
     @Basic
     private String name;
 
+    private final int level = 50;
+
 //    private final int level = 50;
 
     @Column(name = "hp")
@@ -27,10 +31,13 @@ public class Pokemon {
 
     @Column(name = "sprite")
     @Basic
+    private byte[] sprite;
+
     private String sprite;
 
     @OneToMany
     private List<Move> moves;
+
 
 }
 
