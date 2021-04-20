@@ -1,6 +1,7 @@
 package com.soen487.poketext.Model;
 
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 
@@ -38,6 +39,9 @@ public class Pokemon {
     @OneToMany
     private List<Move> moves;
 
+    @ManyToOne(cascade=CascadeType.ALL, optional = false)
+    @JoinColumn(name="userid")
+    private User user;
 
 }
 

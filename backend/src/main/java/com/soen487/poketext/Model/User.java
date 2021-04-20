@@ -22,13 +22,9 @@ public class User {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name="userid")
     @Basic
-    private int user_id;
-
-
-    @Id
+    private int userid;
 
     @Column(name="username")
     @Basic
