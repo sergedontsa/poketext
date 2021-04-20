@@ -1,7 +1,6 @@
 package com.soen487.poketext.Controllers;
 
 
-import com.soen487.poketext.Model.Items;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

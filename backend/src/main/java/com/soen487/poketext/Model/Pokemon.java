@@ -35,9 +35,6 @@ public class Pokemon {
     @Basic
     private String sprite;
 
-    @OneToMany
-    private List<Move> moves;
-
     @ManyToOne(cascade=CascadeType.ALL, optional = false)
     @JoinColumn(name="userid")
     private User user;

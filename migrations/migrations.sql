@@ -23,7 +23,7 @@ create table pokemon
     sprite varchar(250) null,
     userid int not null,
     primary key (pokemonid),
-    foreign key (userid) REFERENCES user(userid)
+    foreign key (userid) REFERENCES user(userid) on delete cascade
 );
 
 create table move
@@ -37,7 +37,7 @@ create table move
     damage int,
     pokemonid int,
     primary key (moveid),
-    foreign key (pokemonid) references pokemon(pokemonid)
+    foreign key (pokemonid) references pokemon(pokemonid) on delete cascade
 );
 
 create table item
@@ -47,7 +47,7 @@ create table item
     attributes varchar(50),
     userid int not null,
     primary key (itemid),
-    foreign key (userid) references user(userid)
+    foreign key (userid) references user(userid) on delete cascade
 );
 
 # -- DUMMY DATA

@@ -4,67 +4,70 @@ package com.soen487.poketext.Controllers;
 import com.soen487.poketext.Model.Move;
 import com.soen487.poketext.Model.Pokemon;
 import com.soen487.poketext.Model.User;
-import com.soen487.poketext.PokeAPI.APIMapper;
-import com.soen487.poketext.PokeAPI.PokeAPI;
 import com.soen487.poketext.Repository.MoveRepository;
 import com.soen487.poketext.Repository.PokemonRepository;
 import com.soen487.poketext.Repository.UserRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
 @RestController
 @RequestMapping(value="/move")
-public class MoveController {
+public class MoveController extends Controller{
 
     @Autowired
     private final MoveRepository moveRepository;
     @Autowired
     private final PokemonRepository pokemonRepository;
-    @Autowired
-    private final UserRepository userRepository;
 
-    public MoveController(MoveRepository moveRepository, PokemonRepository pokemonRepository,
-                          UserRepository userRepository) {
+    public MoveController(MoveRepository moveRepository, PokemonRepository pokemonRepository, UserRepository userRepository) {
+        super(userRepository);
         this.moveRepository = moveRepository;
         this.pokemonRepository = pokemonRepository;
-        this.userRepository = userRepository;
     }
 
-    @PostMapping(value="/choose/{pokemonName}/{moveName}")
-    public @ResponseBody String chooseMove(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName, @PathVariable String moveName){
-        User user = getUserbyHeadersToken(headers);
+//    - return list moves for given pokemon
+    @PostMapping(value="/{pokemonName}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<Move>> getAll(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName){
+        User user = getUserByHeadersToken(headers);
         Optional<Pokemon> existingPokemon = this.pokemonRepository.findByUserAndName(user, pokemonName);
 
         if(existingPokemon.isPresent()){
             Pokemon pokemon = existingPokemon.get();
-            JSONObject pokemonJSON = new PokeAPI().getPokemon(pokemon.getName());
-            JSONArray pokemonMoveJSON = pokemonJSON.getJSONArray("moves");
-            for(int i = 0; i < pokemonMoveJSON.length(); i++) {
+            List<Move> moves = this.moveRepository.findAllByPokemon(pokemon);
+            return ResponseEntity.ok(moves);
 
-            }
-            JSONObject moveJSON = new PokeAPI().getMove(moveName);
-            Move move = new APIMapper().jsonToMove(moveJSON);
-            move.setPokemon(pokemon);
-            this.moveRepository.save(move);
-
-
+        } else {
+            List<Move> none = new ArrayList<>();
+            return ResponseEntity.ok(none);
         }
-
-        return "Move chosen";
     }
 
-    public User getUserbyHeadersToken(HttpHeaders headers){
-        String token = Objects.requireNonNull(headers.get("token")).get(0);
-        Optional<User> existingUser = this.userRepository.findByToken(token);
-        return existingUser.orElseGet(User::new);
+//    - return move info for given move (id: 0-3)
+    @PostMapping(value="/{pokemonName}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Move> getMove(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName, @PathVariable int id){
+        User user = getUserByHeadersToken(headers);
+        Optional<Pokemon> existingPokemon = this.pokemonRepository.findByUserAndName(user, pokemonName);
+
+        if(existingPokemon.isPresent()){
+            Pokemon pokemon = existingPokemon.get();
+            List<Move> moves = this.moveRepository.findAllByPokemon(pokemon);
+            if(id< moves.size()) {
+                return ResponseEntity.ok(moves.get(id));
+            } else {
+                return ResponseEntity.ok(new Move());
+            }
+        } else {
+            return ResponseEntity.ok(new Move());
+        }
     }
 
 }

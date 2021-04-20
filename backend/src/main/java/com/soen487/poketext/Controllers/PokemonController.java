@@ -22,12 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import java.net.http.HttpClient;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,7 +32,7 @@ import java.util.Optional;
 @Transactional
 @RestController
 @RequestMapping(value = "/pokemon")
-public class PokemonController {
+public class PokemonController extends Controller{
 
 
     @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,33 +43,66 @@ public class PokemonController {
     @Autowired
     private final PokemonRepository pokemonRepository;
     @Autowired
-    private final UserRepository userRepository;
-    @Autowired
     private final MoveRepository moveRepository;
 
 
     public PokemonController(PokemonRepository pokemonRepository, UserRepository userRepository, MoveRepository moveRepository) {
+        super(userRepository);
         this.pokemonRepository = pokemonRepository;
-        this.userRepository = userRepository;
         this.moveRepository = moveRepository;
     }
 
-    @GetMapping(value = "")
-    public @ResponseBody String hello(){
-        return "Hello World";
+
+//    - get all user's pokemons
+    @GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<Pokemon>> getAll(@RequestHeader HttpHeaders headers){
+        User user = getUserByHeadersToken(headers);
+        List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
+        return ResponseEntity.ok(pokemons);
     }
 
+//    - get pokemon by id
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Pokemon> getPokemon(@RequestHeader HttpHeaders headers, @PathVariable int id){
+        User user = getUserByHeadersToken(headers);
+        List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
+        if(id<pokemons.size()) {
+            return ResponseEntity.ok(pokemons.get(id));
+        } else {
+            return ResponseEntity.ok(new Pokemon());
+        }
+    }
 
-    @PostMapping(value="/choose/{pokemonName}")
+//    - remove pokemon
+    @DeleteMapping(value="/{id}")
+    public @ResponseBody ResponseEntity<String> deletePokemon(@RequestHeader HttpHeaders headers, @PathVariable int id){
+        User user = getUserByHeadersToken(headers);
+        List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
+        if(id<pokemons.size()) {
+            Pokemon pokemon = pokemons.get(id);
+            this.pokemonRepository.delete(pokemon);
+            return ResponseEntity.ok("Deleted "+pokemon.getName());
+        }
+        else {
+            return ResponseEntity.ok("Pokemon not found");
+        }
+    }
+
+//    - remove all user's pokemons
+    @DeleteMapping(value="/all")
+    public @ResponseBody ResponseEntity<String> deleteAll(@RequestHeader HttpHeaders headers){
+        User user = getUserByHeadersToken(headers);
+        List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
+        for(Pokemon pokemon: pokemons){
+            this.pokemonRepository.delete(pokemon);
+        }
+        return ResponseEntity.ok("Deleted pokemons");
+    }
+
+    @PostMapping(value="/{pokemonName}")
     public @ResponseBody ResponseEntity<String> choosePokemon(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName){
         try {
-            // although get returns a list, we assume that the token list is of length 1
-            // and that the desired token is going to be in the 0 position
-            String token = Objects.requireNonNull(headers.get("token")).get(0);
-            Optional<User> existingUser = this.userRepository.findByToken(token);
-            User user = existingUser.get();
-
-//            Pokemon pokemon = getPokemonFromAPI(pokemonName);
+            User user = getUserByHeadersToken(headers);
             JSONObject pokemonJSON = new PokeAPI().getPokemon(pokemonName);
 
             // return pokemon from API
@@ -109,7 +139,5 @@ public class PokemonController {
         }
     }
 
-//    public Pokemon getPokemonFromAPI(String pokemonName){
-//    }
 
 }
