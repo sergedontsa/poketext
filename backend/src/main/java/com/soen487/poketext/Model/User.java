@@ -10,8 +10,6 @@ import java.security.SecureRandom;
 uniqueConstraints = {
         @UniqueConstraint(columnNames = "username")
 })
-
-@Table(name="user")
 @Setter
 @Getter
 @ToString
@@ -22,13 +20,9 @@ public class User {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name="userid")
     @Basic
-    private int user_id;
-
-
-    @Id
+    private int userid;
 
     @Column(name="username")
     @Basic
@@ -43,6 +37,7 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
 
     @Column(name="token")
     @Basic

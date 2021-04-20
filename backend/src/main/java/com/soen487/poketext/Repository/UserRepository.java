@@ -16,14 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
 
-    @Query(value = "SELECT u FROM User u WHERE u.username = :username")
-    Optional<User> findByUsername(@Param("username") String username);
-
-
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Integer> {
-
     Optional<User> findByUsername(String username);
+    Optional<User> findByToken(String token);
 
 }

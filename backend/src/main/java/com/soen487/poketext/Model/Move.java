@@ -1,6 +1,7 @@
 package com.soen487.poketext.Model;
 
 import lombok.*;
+import org.springframework.aop.config.PointcutEntry;
 
 import javax.persistence.*;
 
@@ -38,5 +39,9 @@ public class Move {
     @Column(name="pp")
     @Basic
     private int pp;
+
+    @ManyToOne(cascade=CascadeType.ALL, optional = false)
+    @JoinColumn(name="pokemonid")
+    private Pokemon pokemon;
 
 }

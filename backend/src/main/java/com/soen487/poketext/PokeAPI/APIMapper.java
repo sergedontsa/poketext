@@ -21,10 +21,10 @@ public class APIMapper {
     public Move jsonToMove(JSONObject moveJSON){
         Move move = new Move();
         move.setName((String) moveJSON.get("name"));
-        move.setAccuracy(Integer.parseInt((String) moveJSON.get("accuracy")));
-        move.setDamage(Integer.parseInt((String) moveJSON.get("power")));
-        move.setPp(Integer.parseInt((String) moveJSON.get("pp")));
-        move.setPriority(Integer.parseInt((String) moveJSON.get("priority")));
+        move.setAccuracy(Integer.parseInt(String.valueOf(moveJSON.get("accuracy"))));
+        move.setDamage(Integer.parseInt(String.valueOf(moveJSON.get("power"))));
+        move.setPp(Integer.parseInt(String.valueOf(moveJSON.get("pp"))));
+        move.setPriority(Integer.parseInt(String.valueOf(moveJSON.get("priority"))));
 
         return move;
     }

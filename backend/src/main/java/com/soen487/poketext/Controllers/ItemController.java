@@ -27,14 +27,6 @@ import java.util.List;
 
 @RequestMapping(value = "/items")
 public class ItemController {
-    @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Items> getAll(){
-        return null;
-    }
-
-@RequestMapping(value = "/item")
-public class ItemController {
-
     @Autowired
     private final ItemRepository itemRepository;
 

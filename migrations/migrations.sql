@@ -21,9 +21,9 @@ create table pokemon
     name varchar(50) null,
     hp  int ,
     sprite varchar(250) null,
-#     userid int not null,
-    primary key (pokemonid)
-#     foreign key (userid) REFERENCES user(userid)
+    userid int not null,
+    primary key (pokemonid),
+    foreign key (userid) REFERENCES user(userid)
 );
 
 create table move
@@ -49,3 +49,7 @@ create table item
     primary key (itemid),
     foreign key (userid) references user(userid)
 );
+
+# -- DUMMY DATA
+
+insert into user (username, password, token) values ('john', '123', 'dummytoken');
