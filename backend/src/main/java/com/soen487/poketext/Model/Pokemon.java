@@ -26,9 +26,6 @@ public class Pokemon {
     @Basic
     private String name;
 
-    private final int level = 50;
-
-//    private final int level = 50;
 
     @Column(name = "hp")
     @Basic
@@ -36,8 +33,6 @@ public class Pokemon {
 
     @Column(name = "sprite")
     @Basic
-    private byte[] sprite;
-
     private String sprite;
 
     @OneToMany

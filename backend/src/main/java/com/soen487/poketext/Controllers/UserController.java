@@ -105,26 +105,6 @@ public class UserController {
     }
 
 
-    private final UserRepository userRepository;
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @PostMapping(value="register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String createUser(@RequestBody User user){
-        Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());
-        if(existingUser.isEmpty()) {
-            User newUser = new User();
-            newUser.setUsername(user.getUsername());
-            newUser.setPassword(user.getPassword());
-            this.userRepository.save(newUser);
-            return "User created";
-        } else {
-            return "User already exists";
-        }
-    }
-
     @PostMapping(value="login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
         Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());

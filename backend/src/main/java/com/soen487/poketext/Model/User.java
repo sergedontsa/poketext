@@ -10,8 +10,6 @@ import java.security.SecureRandom;
 uniqueConstraints = {
         @UniqueConstraint(columnNames = "username")
 })
-
-@Table(name="user")
 @Setter
 @Getter
 @ToString
@@ -39,6 +37,7 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
 
     @Column(name="token")
     @Basic
