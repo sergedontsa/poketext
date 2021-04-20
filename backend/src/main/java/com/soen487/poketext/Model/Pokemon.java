@@ -18,6 +18,10 @@ import java.util.List;
 public class Pokemon {
 
     @Id
+    @Column(name="pokemonid")
+    @Basic
+    private int pokemonid;
+
     @Column(name = "name")
     @Basic
     private String name;

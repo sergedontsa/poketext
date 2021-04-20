@@ -9,6 +9,7 @@ import com.soen487.poketext.PokeAPI.PokeAPI;
 import com.soen487.poketext.Repository.MoveRepository;
 import com.soen487.poketext.Repository.PokemonRepository;
 import com.soen487.poketext.Repository.UserRepository;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -43,12 +44,17 @@ public class MoveController {
         Optional<Pokemon> existingPokemon = this.pokemonRepository.findByUserAndName(user, pokemonName);
 
         if(existingPokemon.isPresent()){
-
             Pokemon pokemon = existingPokemon.get();
+            JSONObject pokemonJSON = new PokeAPI().getPokemon(pokemon.getName());
+            JSONArray pokemonMoveJSON = pokemonJSON.getJSONArray("moves");
+            for(int i = 0; i < pokemonMoveJSON.length(); i++) {
+
+            }
             JSONObject moveJSON = new PokeAPI().getMove(moveName);
             Move move = new APIMapper().jsonToMove(moveJSON);
             move.setPokemon(pokemon);
             this.moveRepository.save(move);
+
 
         }
 
@@ -60,4 +66,5 @@ public class MoveController {
         Optional<User> existingUser = this.userRepository.findByToken(token);
         return existingUser.orElseGet(User::new);
     }
+
 }
