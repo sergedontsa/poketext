@@ -2,7 +2,12 @@ package com.soen487.poketext.Model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.security.SecureRandom;
 
 @Entity
@@ -20,7 +25,7 @@ public class User {
 
 
     @Id
-    @Column(name="userid")
+    @Column(name="user_id")
     @Basic
     private int userid;
 

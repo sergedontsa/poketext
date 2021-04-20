@@ -36,7 +36,6 @@ import java.util.Optional;
 
 @Transactional
 @RestController
-@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
