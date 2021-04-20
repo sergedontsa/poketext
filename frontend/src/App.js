@@ -9,6 +9,7 @@ import Battle from "./Battle";
 
 function App(){
   return (
+
     <main>
         <Switch>
             <Route path='/' component={Login} exact/>
