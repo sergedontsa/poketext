@@ -34,28 +34,7 @@ class PokemonSelection extends Component {
     componentDidMount = event => {
 
         // get the id
-        let x = Math.floor((Math.random() * 5) + 4)
         //perform the request
-        let data = {}
-        let conf = {
-            headers: {
-                'token': 'dummytoken'
-            }
-        }
-        axios.post('http://localhost:8080/pokemon/' + x, data, conf)
-            .then(response => {
-                console.log(response.data)
-            })
-            .catch(function (error) {
-                console.log('REQUEST ERROR')
-                return Promise.reject(error)
-            })
-
-    }
-
-    choosePokemon = event => {
-        event.preventDefault()
-
         let data = {}
         let conf = {
             headers: {
@@ -67,8 +46,39 @@ class PokemonSelection extends Component {
             .then(response => {
                 this.setState({pokemonSelection: response.data})
             })
+
+    }
+
+    choosePokemon = event => {
+        event.preventDefault()
+
+        let x = Math.floor((Math.random() * 5) + 4)
+        let data = {}
+        let conf = {
+            headers: {
+                'token': 'dummytoken'
+            }
+        }
+
+        axios.delete('http://localhost:8080/pokemon/all', conf)
+            .then(response => {
+                console.log(response.data)
+            })
+            .then(response => {
+                axios.post('http://localhost:8080/pokemon/' + x, data, conf)
+                    .then(response => {
+                        console.log(response.data)
+                    })
+            })
+            .then(response => {
+                axios.get('http://localhost:8080/pokemon/0', conf)
+                    .then(response => {
+                        this.setState({pokemonSelection: response.data})
+                        window.location.reload()
+                    })
+            })
             .catch(function (error) {
-                console.log("ERROR WHILE FETCHING POKEMON")
+                console.log('REQUEST ERROR')
                 return Promise.reject(error)
             })
 
@@ -85,9 +95,10 @@ class PokemonSelection extends Component {
             }
         }
 
-        axios.delete('http://localhost:8080/pokemon/0', conf)
+        axios.delete('http://localhost:8080/pokemon/all', conf)
             .then(response => {
                 console.log(response.data)
+                this.setState({pokemonSelection: {}})
             })
             .catch(function (error) {
                 console.log("ERROR WHILE DELETING")
@@ -127,8 +138,8 @@ class PokemonSelection extends Component {
                         <CardActions>
                             <Button onClick={this.choosePokemon} variant="contained" color="primary"> Randomize a
                                 Pokemon </Button>
-                            <Button onClick={this.deletePokemon} variant={"contained"}
-                                    color={"secondary"}>DELETE</Button>
+                            {/*<Button onClick={this.deletePokemon} variant={"contained"}*/}
+                            {/*        color={"secondary"}>DELETE</Button>*/}
                         </CardActions>
                     </Card>
                 </div>

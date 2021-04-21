@@ -17,9 +17,17 @@ class Battle extends Component {
             move3: {},
             move4: {},
             userSelection: {},
-            itemSelection: {}
+            itemSelection: {},
+
+            //bot has bottoken <- which identifies him
+            botUserSelection: {},
+            botPokemon: {},
+            botMoves: {},
+            //no items for bot
+
         }
     }
+
 
     componentDidMount = event => {
 
@@ -39,7 +47,6 @@ class Battle extends Component {
                 .then(response => {
                     axios.get('http://localhost:8080/move/'+this.state.pokemonSelection.name+'/all', conf)
                         .then(response =>{
-                            console.log("RESPONSE 2")
                             console.log(response)
                             this.setState({move1: response.data[0]})
                             this.setState({move2: response.data[1]})
@@ -52,18 +59,26 @@ class Battle extends Component {
                         .then(response => {
                             this.setState({itemSelection: response.data})
                         })
-
             })
                 .catch(function (error) {
                     console.log("ERROR WHILE FETCHING POKEMON")
                     return Promise.reject(error)
                 })
-
-        console.log(this.state.moveSelection)
-
-
-
     }
+
+    componentWillUnmount = event => {
+        this.setState({
+            move1: {},
+            move2: {},
+            move3: {},
+            move4: {}
+        })
+    }
+
+
+// attack(id)=>
+// {botPokemon.hp - (moveSelection[id]*0.2 <- %accuracy? result>acc = 0 || result = attack
+// }
 
     render() {
 
@@ -86,6 +101,7 @@ class Battle extends Component {
                             <img src={Charmander}/>
                         </div>
                         <h4>Charmander</h4>
+                        <h4>HP: 40</h4>
                     </div>
                 </div>
                 <div className="buttonsContainer">
