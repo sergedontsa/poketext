@@ -49,21 +49,10 @@ class Login extends Component{
             'username': this.state.username,
             'password': this.state.password
         }
-        // axios.post('http://localhost:8080/auth', admin)
-        //     .then(res => {console.log(res.data.jwt)});
 
         axios.post('http://localhost:8080/login', admin)
-            .then(response => {this.setState({loginMessage: 'Login Succesful'})})
+            .then(response => {this.setState({loginMessage: response.data})})
 
-
-        // axios.post('http://localhost:8080/login', admin)
-        //     .then(response => {console.log(response.data)})
-
-
-
-
-        // const history = useHistory();
-        // history.push("/main");
     }
 
     handleChange = event => {
@@ -77,7 +66,7 @@ class Login extends Component{
     }
 
     render() {
-        if (this.state.loginMessage == 'Login Succesful') {
+        if (this.state.loginMessage == 'Login Successful') {
            return <Redirect to={{pathname: '/main'}}/>
         }
 
