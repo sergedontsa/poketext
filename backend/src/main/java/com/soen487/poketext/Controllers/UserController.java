@@ -62,6 +62,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
         try {
             this.authenticationManager.authenticate(
@@ -81,16 +82,19 @@ public class UserController {
     }
 
     @PostMapping(value="/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public void createUser(@RequestBody User user) throws Exception {
         if (this.userRepository.findByUsername(user.getUsername()).isPresent()){
             throw new Exception("Username is taken");
         }else {
             User new_user = new User(user.getUsername(), PasswordUtilities.passwordEncoding(user.getPassword()));
             this.userRepository.save(new_user);
+
         }
     }
 
     @PostMapping(value="/login/{username}/{password}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public boolean login(@PathVariable("username") String username, @PathVariable("password") String password){
         Optional<User> optionalUser = this.userRepository.findByUsername(username);
 
@@ -105,6 +109,7 @@ public class UserController {
 
 
     @PostMapping(value="login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
         Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());
         if(existingUser.isPresent()) {
@@ -124,6 +129,7 @@ public class UserController {
     }
 
     @PostMapping(value="logout", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public String logout(@RequestParam("username") String username){
         return "";
     }
