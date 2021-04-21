@@ -10,7 +10,11 @@ import Battle from "./Battle";
 function App(){
   return (
 
-    <main>
+    <main style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }}>
         <Switch>
             <Route path='/' component={Login} exact/>
             <Route path='/main' component={Main}/>

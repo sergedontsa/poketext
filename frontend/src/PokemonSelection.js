@@ -1,5 +1,5 @@
-import React, { useState, Component } from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, Component} from "react";
+import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import clsx from 'clsx';
@@ -23,14 +23,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 
-
-class PokemonSelection extends Component{
+class PokemonSelection extends Component {
     constructor(props) {
         super(props);
         this.state = {
             pokemonSelection: {}
         }
     }
+
     componentDidMount = event => {
 
         const admin = {
@@ -39,21 +39,22 @@ class PokemonSelection extends Component{
         }
 
         // get the id
-        let x = Math.floor((Math.random() * 5)+4)
+        let x = Math.floor((Math.random() * 5) + 4)
         //perform the request
         let data = {}
         let conf = {
-            headers:{
+            headers: {
                 'token': 'dummytoken'
             }
         }
-        axios.post('http://localhost:8080/pokemon/'+x, data, conf)
-            .then(response => {console.log(response.data)})
-            .catch(function (error){
+        axios.post('http://localhost:8080/pokemon/' + x, data, conf)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(function (error) {
                 console.log('REQUEST ERROR')
                 return Promise.reject(error)
             })
-
 
     }
 
@@ -62,14 +63,16 @@ class PokemonSelection extends Component{
 
         let data = {}
         let conf = {
-            headers:{
+            headers: {
                 'token': 'dummytoken'
             }
         }
 
         axios.get('http://localhost:8080/pokemon/0', conf)
-            .then(response => {this.setState({pokemonSelection: response.data})})
-            .catch(function (error){
+            .then(response => {
+                this.setState({pokemonSelection: response.data})
+            })
+            .catch(function (error) {
                 console.log("ERROR WHILE FETCHING POKEMON")
                 return Promise.reject(error)
             })
@@ -77,19 +80,21 @@ class PokemonSelection extends Component{
 
     }
 
-    deletePokemon = event =>{
+    deletePokemon = event => {
         event.preventDefault()
 
         let data = {}
         let conf = {
-            headers:{
+            headers: {
                 'token': 'dummytoken'
             }
         }
 
         axios.delete('http://localhost:8080/pokemon/0', conf)
-            .then(response => {console.log(response.data)})
-            .catch(function (error){
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(function (error) {
                 console.log("ERROR WHILE DELETING")
                 return Promise.reject(error)
             })
@@ -97,53 +102,42 @@ class PokemonSelection extends Component{
     }
 
 
-
     render() {
         return (
-<>
-<div>
+            <>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
 
-            <Card style={{
-                maxWidth: 345
-            }} >
-                <CardActionArea>
-                    <CardMedia
-                        style={{height: 120, padding: 80}}
-                        image={this.state.pokemonSelection.sprite}
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {this.state.pokemonSelection.name}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            HP: {this.state.pokemonSelection.hp}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Button onClick={this.choosePokemon} variant="contained"  color="primary"> Randomize a Pokemon </Button>
-                    <Button onClick={this.deletePokemon} variant={"contained"} color={"secondary"}>DELETE</Button>
-                </CardActions>
-            </Card>
-</div>
-    </>
-
-
-
-            // <>
-            //     <TableContainer>
-                    //         <Table>
-                    //             <TableHead>
-                    //                 <TableRow>
-                    //                     <TableCell hover={true}><h2>HP: {this.state.pokemonSelection.hp}</h2></TableCell>
-                    //                     <TableCell hover={true}><h2>Name: {this.state.pokemonSelection.name}</h2></TableCell>
-                    //                     <TableCell hover={true}><img width={400} height={400} src={this.state.pokemonSelection.sprite}/></TableCell>
-                    //                 </TableRow>
-                    //             </TableHead>
-                    //         </Table>
-                    //     </TableContainer>
-                    // </>
+                    <Card style={{
+                        maxWidth: 345
+                    }}>
+                        <CardActionArea>
+                            <CardMedia
+                                style={{height: 120, padding: 80}}
+                                image={this.state.pokemonSelection.sprite}
+                                title="Contemplative Reptile"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {this.state.pokemonSelection.name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    HP: {this.state.pokemonSelection.hp}
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                            <Button onClick={this.choosePokemon} variant="contained" color="primary"> Randomize a
+                                Pokemon </Button>
+                            <Button onClick={this.deletePokemon} variant={"contained"}
+                                    color={"secondary"}>DELETE</Button>
+                        </CardActions>
+                    </Card>
+                </div>
+            </>
         );
     }
 }

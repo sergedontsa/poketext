@@ -23,4 +23,13 @@ public class Item {
     @Basic
     private int attributes;
 
+    //TODO
+    @Column(name="sprite")
+    @Basic
+    private String sprite;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="userid")
+    private User user;
+
 }
