@@ -31,8 +31,8 @@ class PokemonSelection extends Component{
         //perform the request
         axios.post('http://localhost:8080/pokemon/'+x, {
             headers:{
-                'token': 'dummytoken',
-                'Authorization': token
+
+                'Authorization': 'Bearer ' +token
             }})
             .then(response => {console.log(response.data)})
             .catch(function (error){

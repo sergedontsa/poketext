@@ -66,7 +66,7 @@ class Login extends Component{
     }
 
     render() {
-        if (this.state.loginMessage == 'Login Succesful') {
+        if (this.state.loginMessage == 'Login Successful') {
            return <Redirect to={{pathname: '/main'}}/>
         }
 
