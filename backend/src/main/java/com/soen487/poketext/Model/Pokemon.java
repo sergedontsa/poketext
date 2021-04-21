@@ -35,7 +35,7 @@ public class Pokemon {
     @Basic
     private String sprite;
 
-    @ManyToOne(cascade=CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name="userid")
     private User user;
 
