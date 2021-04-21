@@ -35,6 +35,7 @@ public class APIMapper {
         // only implemented potion item for now
         // with heal of 20 points
         item.setAttributes(20);
+        item.setSprite((String) itemJSON.getJSONObject("sprites").get("default"));
 
         return item;
     }
