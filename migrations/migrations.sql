@@ -53,4 +53,5 @@ create table item
 
 # -- DUMMY DATA
 
+insert into user (username, password, token) values ('bot', 'bot', 'bottoken');
 insert into user (username, password, token) values ('john', '123', 'dummytoken');
