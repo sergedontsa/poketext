@@ -55,6 +55,7 @@ public class PokemonController extends Controller{
 
 //    - get all user's pokemons
     @GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public @ResponseBody ResponseEntity<List<Pokemon>> getAll(@RequestHeader HttpHeaders headers){
         User user = getUserByHeadersToken(headers);
         List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
@@ -63,6 +64,7 @@ public class PokemonController extends Controller{
 
 //    - get pokemon by id
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public @ResponseBody ResponseEntity<Pokemon> getPokemon(@RequestHeader HttpHeaders headers, @PathVariable int id){
         User user = getUserByHeadersToken(headers);
         List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
@@ -75,6 +77,7 @@ public class PokemonController extends Controller{
 
 //    - remove pokemon
     @DeleteMapping(value="/{id}")
+    @CrossOrigin
     public @ResponseBody ResponseEntity<String> deletePokemon(@RequestHeader HttpHeaders headers, @PathVariable int id){
         User user = getUserByHeadersToken(headers);
         List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
@@ -90,6 +93,7 @@ public class PokemonController extends Controller{
 
 //    - remove all user's pokemons
     @DeleteMapping(value="/all")
+    @CrossOrigin
     public @ResponseBody ResponseEntity<String> deleteAll(@RequestHeader HttpHeaders headers){
         User user = getUserByHeadersToken(headers);
         List<Pokemon> pokemons = this.pokemonRepository.findAllByUser(user);
@@ -100,6 +104,7 @@ public class PokemonController extends Controller{
     }
 
     @PostMapping(value="/{pokemonName}")
+    @CrossOrigin
     public @ResponseBody ResponseEntity<String> choosePokemon(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName){
         try {
             User user = getUserByHeadersToken(headers);

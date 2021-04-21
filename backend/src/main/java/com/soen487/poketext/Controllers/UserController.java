@@ -108,7 +108,7 @@ public class UserController {
     }
 
 
-    @PostMapping(value="login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
         Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());
@@ -120,7 +120,7 @@ public class UserController {
 
             return ResponseEntity.ok()
                     .headers(responseHeaders)
-                    .body("Login Succesful");
+                    .body("Login Successful");
 
         } else{
             return ResponseEntity.status(401)

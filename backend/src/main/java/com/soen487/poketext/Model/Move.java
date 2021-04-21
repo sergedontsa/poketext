@@ -1,6 +1,10 @@
 package com.soen487.poketext.Model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.aop.config.PointcutEntry;
 
 import javax.persistence.*;
