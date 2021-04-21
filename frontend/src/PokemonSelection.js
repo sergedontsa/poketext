@@ -33,11 +33,6 @@ class PokemonSelection extends Component {
 
     componentDidMount = event => {
 
-        const admin = {
-            'username': 'admin',
-            'password': 'admin'
-        }
-
         // get the id
         let x = Math.floor((Math.random() * 5) + 4)
         //perform the request

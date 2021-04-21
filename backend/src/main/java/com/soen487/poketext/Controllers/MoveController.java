@@ -35,7 +35,8 @@ public class MoveController extends Controller{
     }
 
 //    - return list moves for given pokemon
-    @PostMapping(value="/{pokemonName}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/{pokemonName}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public @ResponseBody ResponseEntity<List<Move>> getAll(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName){
         User user = getUserByHeadersToken(headers);
         Optional<Pokemon> existingPokemon = this.pokemonRepository.findByUserAndName(user, pokemonName);
@@ -52,7 +53,8 @@ public class MoveController extends Controller{
     }
 
 //    - return move info for given move (id: 0-3)
-    @PostMapping(value="/{pokemonName}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/{pokemonName}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public @ResponseBody ResponseEntity<Move> getMove(@RequestHeader HttpHeaders headers, @PathVariable String pokemonName, @PathVariable int id){
         User user = getUserByHeadersToken(headers);
         Optional<Pokemon> existingPokemon = this.pokemonRepository.findByUserAndName(user, pokemonName);
