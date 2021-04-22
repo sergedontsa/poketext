@@ -17,6 +17,7 @@ class Battle extends Component {
             move2: {},
             move3: {},
             move4: {},
+            userHp: null,
 
             userSelection: {},
             itemSelection: {},
@@ -49,6 +50,7 @@ class Battle extends Component {
                 .then(response => {
                     console.log(response)
                     this.setState({pokemonSelection: response.data})
+                    this.setState({userHp: response.data.hp})
                     return response.data
                 })
                 .then(response => {
@@ -126,9 +128,9 @@ class Battle extends Component {
                 console.log(response.data)
                 attributes = response.data.attributes
                 console.log("ATTRIBUT: " + attributes)
-                let c = this.state.pokemonSelection.hp
-                let b = c + attributes
-                if (b <= c) {
+
+                let b = this.state.pokemonSelection.hp + attributes
+                if (b <= this.state.userHp) {
                     let tempHp = this.state.pokemonSelection
                     tempHp.hp = b
                     this.setState({pokemonSelection: tempHp})
