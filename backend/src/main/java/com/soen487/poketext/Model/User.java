@@ -22,7 +22,10 @@ uniqueConstraints = {
 @NoArgsConstructor
 public class User {
 
-
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     @Id
     @Column(name="userid")
@@ -33,20 +36,21 @@ public class User {
     @Basic
     private String username;
 
-
     @Column(name="password")
     @Basic
     private String password;
 
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
     @Column(name="token")
     @Basic
     private String token = "";
+
+    @Column(name="wincount")
+    @Basic
+    private int wincount;
+
+    @Column(name="losscount")
+    @Basic
+    private int losscount;
 
     private static final int TOKEN_LENGTH = 20;
 

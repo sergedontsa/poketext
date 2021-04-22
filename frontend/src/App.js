@@ -6,6 +6,7 @@ import Main from './Main';
 import PokemonSelection from "./PokemonSelection";
 import ItemSelection from "./ItemSelection";
 import Battle from "./Battle";
+import Stats from "./Stats"
 
 function App(){
   return (
@@ -21,6 +22,7 @@ function App(){
             <Route path='/pokemonselection' component={PokemonSelection}/>
             <Route path='/itemselection' component={ItemSelection}/>
             <Route path='/battle' component={Battle}/>
+            <Route path='/stats' component={Stats}/>
         </Switch>
     </main>
   );

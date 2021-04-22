@@ -16,7 +16,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -36,7 +35,8 @@ import java.util.Optional;
 
 @Transactional
 @RestController
-public class UserController {
+@RequestMapping(value="")
+public class UserController extends Controller {
 
     @Autowired
 
@@ -55,6 +55,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     public UserController(AuthenticationManager authenticationManager, UserDetailService userDetailService, JwtUtil jwtTokenUtil, UserRepository userRepository) {
+        super(userRepository);
         this.authenticationManager = authenticationManager;
         this.userDetailService = userDetailService;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -132,5 +133,12 @@ public class UserController {
     @CrossOrigin
     public String logout(@RequestParam("username") String username){
         return "";
+    }
+
+    @GetMapping(value="/info")
+    @CrossOrigin
+    public @ResponseBody ResponseEntity<User> getInfo(@RequestHeader HttpHeaders headers){
+        User user = getUserByHeadersToken(headers);
+        return ResponseEntity.ok(user);
     }
 }

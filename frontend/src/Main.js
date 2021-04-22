@@ -40,7 +40,7 @@ export default function Main() {
             <br/>
             <br/>
             <Link
-                to=""
+                to="/stats"
                 style={{ textDecoration: 'none', color: 'white' }}>
                     <Button
                         variant="contained"
