@@ -9,8 +9,7 @@ import com.soen487.poketext.Model.AuthenticationResponse;
 import com.soen487.poketext.Service.UserDetailService;
 import com.soen487.poketext.Utils.PasswordUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +24,6 @@ import java.util.OptionalInt;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,6 +63,11 @@ public class UserController extends Controller {
     @PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
+
+
+
+
+
         try {
             this.authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
@@ -90,44 +93,55 @@ public class UserController extends Controller {
         }else {
             User new_user = new User(user.getUsername(), PasswordUtilities.passwordEncoding(user.getPassword()));
             this.userRepository.save(new_user);
-
         }
     }
-
-    @PostMapping(value="/login/{username}/{password}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public boolean login(@PathVariable("username") String username, @PathVariable("password") String password){
-        Optional<User> optionalUser = this.userRepository.findByUsername(username);
-
-        if (optionalUser.isPresent()){
-            User user = optionalUser.get();
-            return PasswordUtilities.isPasswordMatch(password, user.getPassword());
-        }
-        return false;
-
-
-    }
-
 
     @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
-        Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());
-        if(existingUser.isPresent()) {
-            String token = "dummytoken";
-            existingUser.get().setToken(token);
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("token", token);
+        Optional<User> optionalUser = this.userRepository.findByUsername(user.getUsername());
 
-            return ResponseEntity.ok()
-                    .headers(responseHeaders)
-                    .body("Login Successful");
+        if (optionalUser.isPresent()){
+            User existingUser = optionalUser.get();
+            if(PasswordUtilities.isPasswordMatch(user.getPassword(), existingUser.getPassword())){
+                user.setToken("GENERATED TOKEN"); //<- Generate JWT
+                this.userRepository.save(user);
 
-        } else{
-            return ResponseEntity.status(401)
-                    .body("Login Failed");
+                HttpHeaders responseHeaders = new HttpHeaders();
+                responseHeaders.set("token", user.getToken());
+
+                return ResponseEntity.ok()
+                        .headers(responseHeaders)
+                        .body("Login Successful");
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Wrong password");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Signup first");
         }
     }
+
+
+//    @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
+//        Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());
+//        if(existingUser.isPresent()) {
+//            String token = "dummytoken"; // <- generate JWT
+//            existingUser.get().setToken(token);
+//            HttpHeaders responseHeaders = new HttpHeaders();
+//            responseHeaders.set("token", token);
+//
+//            return ResponseEntity.ok()
+//                    .headers(responseHeaders)
+//                    .body("Login Successful");
+//
+//        } else{
+//            return ResponseEntity.status(401)
+//                    .body("Login Failed");
+//        }
+//    }
 
     @PostMapping(value="logout", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
