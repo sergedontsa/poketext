@@ -8,6 +8,7 @@ import com.soen487.poketext.Model.AuthenticationRequest;
 import com.soen487.poketext.Model.AuthenticationResponse;
 import com.soen487.poketext.Service.UserDetailService;
 import com.soen487.poketext.Utils.PasswordUtilities;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Transactional
 @RestController
@@ -64,10 +67,6 @@ public class UserController extends Controller {
     @CrossOrigin
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
 
-
-
-
-
         try {
             this.authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
@@ -87,38 +86,49 @@ public class UserController extends Controller {
 
     @PostMapping(value="/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public void createUser(@RequestBody User user) throws Exception {
+    public @ResponseBody ResponseEntity<String> createUser(@RequestBody User user) throws Exception {
         if (this.userRepository.findByUsername(user.getUsername()).isPresent()){
-            throw new Exception("Username is taken");
+            return ResponseEntity.ok("Username is taken");
         }else {
             User new_user = new User(user.getUsername(), PasswordUtilities.passwordEncoding(user.getPassword()));
             this.userRepository.save(new_user);
+            return ResponseEntity.ok("User created!");
         }
     }
 
     @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
+    public ResponseEntity<String> login(@RequestBody User user){
         Optional<User> optionalUser = this.userRepository.findByUsername(user.getUsername());
+        JSONObject respJSON = new JSONObject();
 
         if (optionalUser.isPresent()){
             User existingUser = optionalUser.get();
             if(PasswordUtilities.isPasswordMatch(user.getPassword(), existingUser.getPassword())){
-                user.setToken("GENERATED TOKEN"); //<- Generate JWT
-                this.userRepository.save(user);
 
-                HttpHeaders responseHeaders = new HttpHeaders();
-                responseHeaders.set("token", user.getToken());
+                Random random = ThreadLocalRandom.current();
+                byte[] r = new byte[32]; //Means 256 bit
+                random.nextBytes(r);
+                String token = Base64.encodeBase64String(r);
+
+
+                existingUser.setToken(token);
+                this.userRepository.save(existingUser);
+
+//                HttpHeaders responseHeaders = new HttpHeaders();
+//                responseHeaders.add("Authorization", "Bearer "+existingUser.getToken());
+
+                respJSON.put("token", existingUser.getToken());
+                respJSON.put("body", "Login Successful");
 
                 return ResponseEntity.ok()
-                        .headers(responseHeaders)
-                        .body("Login Successful");
+                        .body(respJSON.toString());
             }
             else{
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Wrong password");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respJSON.toString());
             }
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Signup first");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respJSON.toString());
         }
     }
 

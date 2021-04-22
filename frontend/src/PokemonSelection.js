@@ -29,20 +29,17 @@ class PokemonSelection extends Component {
         this.state = {
             pokemonSelection: {}
         }
+        this.headers = {
+            headers: {
+                'token': localStorage.getItem('token')
+            }
+        }
+        this.data = {}
     }
 
     componentDidMount = event => {
 
-        // get the id
-        //perform the request
-        let data = {}
-        let conf = {
-            headers: {
-                'token': 'dummytoken'
-            }
-        }
-
-        axios.get('http://localhost:8080/pokemon/0', conf)
+        axios.get('http://localhost:8080/pokemon/0', this.headers)
             .then(response => {
                 this.setState({pokemonSelection: response.data})
             })
@@ -53,25 +50,19 @@ class PokemonSelection extends Component {
         event.preventDefault()
 
         let x = Math.floor((Math.random() * 5) + 4)
-        let data = {}
-        let conf = {
-            headers: {
-                'token': 'dummytoken'
-            }
-        }
 
-        axios.delete('http://localhost:8080/pokemon/all', conf)
+        axios.delete('http://localhost:8080/pokemon/all', this.headers)
             .then(response => {
                 console.log(response.data)
             })
             .then(response => {
-                axios.post('http://localhost:8080/pokemon/' + x, data, conf)
+                axios.post('http://localhost:8080/pokemon/' + x, this.data, this.headers)
                     .then(response => {
                         console.log(response.data)
                     })
             })
             .then(response => {
-                axios.get('http://localhost:8080/pokemon/0', conf)
+                axios.get('http://localhost:8080/pokemon/0', this.headers)
                     .then(response => {
                         this.setState({pokemonSelection: response.data})
                         window.location.reload()
@@ -88,14 +79,7 @@ class PokemonSelection extends Component {
     deletePokemon = event => {
         event.preventDefault()
 
-        let data = {}
-        let conf = {
-            headers: {
-                'token': 'dummytoken'
-            }
-        }
-
-        axios.delete('http://localhost:8080/pokemon/all', conf)
+        axios.delete('http://localhost:8080/pokemon/all', this.headers)
             .then(response => {
                 console.log(response.data)
                 this.setState({pokemonSelection: {}})

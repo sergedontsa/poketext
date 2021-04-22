@@ -33,12 +33,12 @@ class ItemSelection extends Component {
             this.state = {
                 itemSelection: {}
             }
-            this.data = {}
             this.headers = {
                 headers: {
-                    'token': 'dummytoken'
+                    'token': localStorage.getItem('token')
                 }
             }
+            this.data = {}
         }
 
         componentDidMount = event => {
