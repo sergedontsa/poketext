@@ -141,4 +141,22 @@ public class UserController extends Controller {
         User user = getUserByHeadersToken(headers);
         return ResponseEntity.ok(user);
     }
+
+    @PutMapping(value="/updatewin")
+    @CrossOrigin
+    public @ResponseBody ResponseEntity<String> updateWin(@RequestHeader HttpHeaders headers){
+        User user = getUserByHeadersToken(headers);
+        user.setWincount(user.getWincount()+1);
+        this.userRepository.save(user);
+        return ResponseEntity.ok("Updated Win count");
+    }
+
+    @PutMapping(value="/updateloss")
+    @CrossOrigin
+    public @ResponseBody ResponseEntity<String> updateLoss(@RequestHeader HttpHeaders headers){
+        User user = getUserByHeadersToken(headers);
+        user.setLosscount(user.getLosscount()+1);
+        this.userRepository.save(user);
+        return ResponseEntity.ok("Updated Loss count");
+    }
 }

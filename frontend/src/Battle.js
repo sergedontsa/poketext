@@ -32,8 +32,14 @@ class Battle extends Component {
 
             potionFlag: false
             //no items for bot
-
         }
+        this.data = {}
+        this.headers = {
+            headers: {
+                'token': 'dummytoken'
+            }
+        }
+
     }
 
     componentDidMount = event => {
@@ -167,6 +173,10 @@ class Battle extends Component {
         this.setState({pokemonSelection: tempState })
         if(this.state.pokemonSelection.hp<=0) {
             alert("GAME OVER! YOU LOST!")
+            axios.put('http://localhost:8080/updateloss', this.data, this.headers)
+                .then(response => {
+                    console.log(response)
+                })
             //redirect
         }
     }
@@ -200,7 +210,10 @@ class Battle extends Component {
         this.setState({botSelection: tempState })
         if(this.state.botSelection.hp<=0){
             alert("GAME OVER! YOU WON!")
-            //redirect
+            axios.put('http://localhost:8080/updatewin', this.data, this.headers)
+                .then(response => {
+                    console.log(response)
+                })
         }else{
             this.botMove()
         }
