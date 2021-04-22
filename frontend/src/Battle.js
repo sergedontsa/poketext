@@ -113,10 +113,43 @@ class Battle extends Component {
         })
     }
 
+    handleMove = id => event => {
+        event.preventDefault()
+        // var id = 0
+        console.log("ATTACKING " )
+        let pokeMove = [
+           this.state.move1,
+           this.state.move2,
+           this.state.move3,
+           this.state.move4
+        ]
+        let botMove = [
+           this.state.botMove1,
+           this.state.botMove2,
+           this.state.botMove3,
+           this.state.botMove4
+        ]
 
-// attack(id)=>
-// {botPokemon.hp - (moveSelection[id]*0.2 <- %accuracy? result>acc = 0 || result = attack
-// }
+        let acc = Math.random(pokeMove[id].accuracy*1)
+        if (acc>pokeMove[id].accuracy){
+            acc = 0
+
+        }else {
+            acc = 1
+        }
+        let attack = pokeMove[id].damage*acc*0.03
+        let a = this.state.botSelection.hp - attack
+
+        let tempState = this.state.botSelection
+        tempState.hp = a
+
+        if (a < 0)
+            alert("Game over")
+        else
+            this.setState({botSelection: tempState })
+
+    }
+
 
     render() {
 
@@ -144,10 +177,10 @@ class Battle extends Component {
                     </div>
                 </div>
                 <div className="buttonsContainer">
-                    <Button variant="contained" color="primary">{this.state.move1.name}</Button>
-                    <Button variant="contained" color="primary">{this.state.move2.name}</Button>
-                    <Button variant="contained" color="primary">{this.state.move3.name}</Button>
-                    <Button variant="contained" color="primary">{this.state.move4.name}</Button>
+                    <Button variant="contained" onClick={this.handleMove(0)} color="primary">{this.state.move1.name}</Button>
+                    <Button variant="contained" onClick={this.handleMove(1)} color="primary">{this.state.move2.name}</Button>
+                    <Button variant="contained" onClick={this.handleMove(2)} color="primary">{this.state.move3.name}</Button>
+                    <Button variant="contained" onClick={this.handleMove(3)} color="primary">{this.state.move4.name}</Button>
                     <Button variant="contained" color="secondary">{this.state.itemSelection.name}</Button>
                 </div>
                 <div className="dialogueContainer">
