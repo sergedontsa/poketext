@@ -12,22 +12,27 @@ class Battle extends Component {
         super(props);
         this.state = {
             pokemonSelection: {},
+            botSelection: {},
             move1: {},
             move2: {},
             move3: {},
             move4: {},
+
             userSelection: {},
             itemSelection: {},
 
             //bot has bottoken <- which identifies him
             botUserSelection: {},
             botPokemon: {},
-            botMoves: {},
+            botMove1: {},
+            botMove2: {},
+            botMove3: {},
+            botMove4: {}
+
             //no items for bot
 
         }
     }
-
 
     componentDidMount = event => {
 
@@ -37,6 +42,7 @@ class Battle extends Component {
                     'token': 'dummytoken'
                 }
             }
+
 
             axios.get('http://localhost:8080/pokemon/0', conf)
                 .then(response => {
@@ -59,11 +65,43 @@ class Battle extends Component {
                         .then(response => {
                             this.setState({itemSelection: response.data})
                         })
-            })
-                .catch(function (error) {
+            }).catch(function (error) {
                     console.log("ERROR WHILE FETCHING POKEMON")
                     return Promise.reject(error)
                 })
+
+        let headBot = {
+            headers: {
+                'token': 'bottoken'
+            }
+        }
+        let dataBot = {}
+        let y = Math.floor((Math.random() *5 )+4)
+
+        axios.post('http://localhost:8080/pokemon/'+y, dataBot, headBot)
+            .then(response => {
+                console.log(response)
+            }).then(response => {
+            axios.get('http://localhost:8080/pokemon/0', headBot)
+                .then(response => {
+                    console.log(response.data)
+                    this.setState({botSelection: response.data})
+                    return response.data
+                }).then(response => {
+                axios.get('http://localhost:8080/move/'+this.state.botSelection.name+'/all', headBot)
+                    .then(response =>{
+                        console.log(response)
+                        this.setState({botMove1: response.data[0]})
+                        this.setState({botMove2: response.data[1]})
+                        this.setState({botMove3: response.data[2]})
+                        this.setState({botMove4: response.data[3]})
+
+                    })
+            })
+
+        })
+
+
     }
 
     componentWillUnmount = event => {
@@ -94,14 +132,15 @@ class Battle extends Component {
                         <h4>{this.state.pokemonSelection.name}</h4>
                         <h4>HP: {this.state.pokemonSelection.hp}</h4>
                     </div>
+
                     {/*BOT SECTION*/}
                     <div className="battlerContainer">
                         <h3>Bot</h3>
                         <div className="pictureContainer">
-                            <img src={Charmander}/>
+                            <img src={this.state.botSelection.sprite}/>
                         </div>
-                        <h4>Charmander</h4>
-                        <h4>HP: 40</h4>
+                        <h4>{this.state.botSelection.name}</h4>
+                        <h4>HP: {this.state.botSelection.hp}</h4>
                     </div>
                 </div>
                 <div className="buttonsContainer">
