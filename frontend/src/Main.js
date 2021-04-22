@@ -15,8 +15,6 @@ export default function Main() {
                             Get Pokemon
                     </Button>
             </Link>
-            <br/>
-            <br/>
             <Link
                 to="/itemselection"
                 style={{ textDecoration: 'none', color: 'white' }}>
@@ -26,8 +24,6 @@ export default function Main() {
                             Get Items
                     </Button>
             </Link>
-            <br/>
-            <br/>
             <Link
                 to="/battle"
                 style={{ textDecoration: 'none', color: 'white' }}>
@@ -37,8 +33,6 @@ export default function Main() {
                             Battle
                     </Button>
             </Link>
-            <br/>
-            <br/>
             <Link
                 to="/stats"
                 style={{ textDecoration: 'none', color: 'white' }}>
@@ -48,8 +42,6 @@ export default function Main() {
                             Check Stats
                     </Button>
             </Link>
-            <br/>
-            <br/>
             <Link
                 to=""
                 style={{ textDecoration: 'none', color: 'white' }}>

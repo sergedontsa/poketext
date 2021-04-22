@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import { useHistory, Redirect } from "react-router-dom";
 import "./Login.css";
 import axios from 'axios'
+import logo from './pictures/logo_487.gif'
 // import {Redirect} from 'react-router'
 
 
@@ -108,6 +109,7 @@ class Login extends Component{
         return (
             <>
                 <div className="Login">
+                    <img src={logo}/>
                     <form onSubmit={this.handleSubmit}>
 
                         <TextField variant="outlined" margin="normal" fullWidth  required

@@ -11,11 +11,7 @@ import Stats from "./Stats"
 function App(){
   return (
 
-    <main style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }}>
+    <main>
         <Switch>
             <Route path='/' component={Login} exact/>
             <Route path='/main' component={Main}/>

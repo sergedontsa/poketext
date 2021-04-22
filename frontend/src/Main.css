@@ -1,7 +1,12 @@
 .container {
-    background-color: lightgray;
-    height: 300px;
-    margin-left: 10%;
-    margin-right: 10%;
-    position: center;
+    position: absolute;
+    top: 25%;
+    padding: 60px 0;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
