@@ -27,8 +27,9 @@ class Battle extends Component {
             botMove1: {},
             botMove2: {},
             botMove3: {},
-            botMove4: {}
+            botMove4: {},
 
+            potionFlag: false
             //no items for bot
 
         }
@@ -98,10 +99,7 @@ class Battle extends Component {
 
                     })
             })
-
         })
-
-
     }
 
     componentWillUnmount = event => {
@@ -111,6 +109,32 @@ class Battle extends Component {
             move3: {},
             move4: {}
         })
+    }
+
+    handlePotion = event =>{
+        event.preventDefault()
+        let conf = {
+            headers: {
+                'token': 'dummytoken'
+            }
+        }
+
+        let attributes = null
+
+        axios.get('http://localhost:8080/item', conf)
+            .then(response => {
+                console.log(response.data)
+                attributes = response.data.attributes
+                console.log("ATTRIBUT: " + attributes)
+                let c = this.state.pokemonSelection.hp
+                let b = c + attributes
+                if (b <= c) {
+                    let tempHp = this.state.pokemonSelection
+                    tempHp.hp = b
+                    this.setState({pokemonSelection: tempHp})
+                    this.setState({potionFlag: true})
+                }
+            })
     }
 
     handleMove = id => event => {
@@ -138,6 +162,7 @@ class Battle extends Component {
             acc = 1
         }
         let attack = pokeMove[id].damage*acc*0.03
+
         let a = this.state.botSelection.hp - attack
 
         let tempState = this.state.botSelection
@@ -181,7 +206,9 @@ class Battle extends Component {
                     <Button variant="contained" onClick={this.handleMove(1)} color="primary">{this.state.move2.name}</Button>
                     <Button variant="contained" onClick={this.handleMove(2)} color="primary">{this.state.move3.name}</Button>
                     <Button variant="contained" onClick={this.handleMove(3)} color="primary">{this.state.move4.name}</Button>
-                    <Button variant="contained" color="secondary">{this.state.itemSelection.name}</Button>
+                    <Button variant="contained" color="secondary" onClick={this.handlePotion} disabled={this.state.potionFlag}>{this.state.itemSelection.name}</Button>
+
+
                 </div>
                 <div className="dialogueContainer">
                     <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic
