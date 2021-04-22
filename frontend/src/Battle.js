@@ -137,6 +137,38 @@ class Battle extends Component {
             })
     }
 
+    botMove = () => {
+        console.log("BOT ATACCKING")
+        let botMove = [
+            this.state.botMove1,
+            this.state.botMove2,
+            this.state.botMove3,
+            this.state.botMove4
+        ]
+
+        let id = Math.floor(Math.random()*4)
+        console.log("BOT ATTACKING WITH ID: "+id)
+        let acc = Math.random(botMove[id].accuracy*1)
+        if (acc>botMove[id].accuracy){
+            acc = 0
+        }else {
+            acc = 1
+        }
+        let attack = botMove[id].damage*acc*0.3
+        let a = this.state.pokemonSelection.hp - attack
+
+        let tempState = this.state.pokemonSelection
+        if (a<0) {
+            a = 0
+        }
+        tempState.hp = a
+        this.setState({pokemonSelection: tempState })
+        if(this.state.pokemonSelection.hp<=0) {
+            alert("GAME OVER! YOU LOST!")
+            //redirect
+        }
+    }
+
     handleMove = id => event => {
         event.preventDefault()
         // var id = 0
@@ -147,33 +179,32 @@ class Battle extends Component {
            this.state.move3,
            this.state.move4
         ]
-        let botMove = [
-           this.state.botMove1,
-           this.state.botMove2,
-           this.state.botMove3,
-           this.state.botMove4
-        ]
+
 
         let acc = Math.random(pokeMove[id].accuracy*1)
         if (acc>pokeMove[id].accuracy){
             acc = 0
-
         }else {
             acc = 1
         }
-        let attack = pokeMove[id].damage*acc*0.03
-
+        let attack = pokeMove[id].damage*acc*0.3
         let a = this.state.botSelection.hp - attack
 
         let tempState = this.state.botSelection
+        if (a<0) {
+            a = 0
+        }
         tempState.hp = a
-
-        if (a < 0)
-            alert("Game over")
-        else
-            this.setState({botSelection: tempState })
-
+        this.setState({botSelection: tempState })
+        if(this.state.botSelection.hp<=0){
+            alert("GAME OVER! YOU WON!")
+            //redirect
+        }else{
+            this.botMove()
+        }
     }
+
+
 
 
     render() {
