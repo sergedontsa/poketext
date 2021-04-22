@@ -1,10 +1,6 @@
 package com.soen487.poketext.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.aop.config.PointcutEntry;
 
 import javax.persistence.*;
@@ -19,6 +15,11 @@ import javax.persistence.*;
 public class Move {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="moveid")
+    @Basic
+    private int moveid;
+
     @Column(name="name")
     @Basic
     private String name;
