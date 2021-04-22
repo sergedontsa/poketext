@@ -29,20 +29,20 @@ class Stats extends Component {
         this.state = {
             userSelection: {}
         }
+        this.headers = {
+            headers: {
+                'token': localStorage.getItem('token')
+            }
+        }
+        this.data = {}
     }
 
     componentDidMount = event => {
 
         // get the id
         //perform the request
-        let data = {}
-        let conf = {
-            headers: {
-                'token': 'dummytoken'
-            }
-        }
 
-        axios.get('http://localhost:8080/info', conf)
+        axios.get('http://localhost:8080/info', this.headers)
             .then(response => {
                 this.setState({userSelection: response.data})
             })

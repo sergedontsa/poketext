@@ -10,8 +10,8 @@ create table user
 (
     userid int(11) not null auto_increment,
     username  varchar(50) null,
-    password varchar(50) null,
-    token varchar(50) null,
+    password varchar(256) null,
+    token varchar(256) null,
     wincount int default 0,
     losscount int default 0,
     primary key (userid)
@@ -56,4 +56,3 @@ create table item
 # -- DUMMY DATA
 
 insert into user (username, password, token) values ('bot', 'bot', 'bottoken');
-insert into user (username, password, token) values ('john', '123', 'dummytoken');

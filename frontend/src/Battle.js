@@ -37,12 +37,13 @@ class Battle extends Component {
             //no items for bot
         }
         this.textLog = ''
-        this.data = {}
+
         this.headers = {
             headers: {
-                'token': 'dummytoken'
+                'token': localStorage.getItem('token')
             }
         }
+        this.data = {}
 
     }
 
@@ -61,22 +62,14 @@ class Battle extends Component {
 
     componentDidMount = event => {
 
-            let data = {}
-            let conf = {
-                headers: {
-                    'token': 'dummytoken'
-                }
-            }
-
-
-            axios.get('http://localhost:8080/pokemon/0', conf)
+            axios.get('http://localhost:8080/pokemon/0', this.headers)
                 .then(response => {
                     this.setState({pokemonSelection: response.data})
                     this.setState({userHp: response.data.hp})
                     return response.data
                 })
                 .then(response => {
-                    axios.get('http://localhost:8080/move/'+this.state.pokemonSelection.name+'/all', conf)
+                    axios.get('http://localhost:8080/move/'+this.state.pokemonSelection.name+'/all', this.headers)
                         .then(response =>{
                             this.setState({move1: response.data[0]})
                             this.setState({move2: response.data[1]})
@@ -85,7 +78,7 @@ class Battle extends Component {
                         })
                     }
                 ).then(response =>{
-                    axios.get('http://localhost:8080/item', conf)
+                    axios.get('http://localhost:8080/item', this.headers)
                         .then(response => {
                             this.setState({itemSelection: response.data})
                         })
@@ -133,15 +126,10 @@ class Battle extends Component {
 
     handlePotion = event =>{
         event.preventDefault()
-        let conf = {
-            headers: {
-                'token': 'dummytoken'
-            }
-        }
 
         let attributes = null
 
-        axios.get('http://localhost:8080/item', conf)
+        axios.get('http://localhost:8080/item', this.headers)
             .then(response => {
                 attributes = response.data.attributes
 
