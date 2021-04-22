@@ -12,6 +12,8 @@ create table user
     username  varchar(50) null,
     password varchar(50) null,
     token varchar(50) null,
+    wincount int default 0,
+    losscount int default 0,
     primary key (userid)
 );
 
