@@ -1,12 +1,12 @@
 import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Login from './Login';
-import Main from './Main';
-import PokemonSelection from "./PokemonSelection";
-import ItemSelection from "./ItemSelection";
-import Battle from "./Battle";
-import Stats from "./Stats"
+import Login from './Login/Login';
+import Main from './Main/Main';
+import PokemonSelection from "./PokemonSelection/PokemonSelection";
+import ItemSelection from "./ItemSelection/ItemSelection";
+import Battle from "./Battle/Battle";
+import Stats from "./Stats/Stats"
 
 function App(){
   return (

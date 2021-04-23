@@ -1,0 +1,21 @@
+.root {
+    max-width: 345px;
+}
+
+.media {
+    height: 140px;
+}
+
+.selectionRoot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 25%;
+}
+
+.image {
+    height: 200px;
+    image-rendering: crisp-edges;
+}
+
