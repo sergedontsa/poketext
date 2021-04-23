@@ -55,8 +55,11 @@ class Stats extends Component {
         let loss = this.state.userSelection.losscount
         if(loss>0){
             return win/loss*1.0;
+        } else if (win>0){
+            return 1;
+
         } else {
-            return 0.0;
+            return 0;
         }
 
     }
