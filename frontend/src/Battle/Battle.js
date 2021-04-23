@@ -166,9 +166,9 @@ class Battle extends Component {
             this.updateTextLog(this.state.botSelection.name + " attack has missed")
         }else {
             acc = 1
-            this.updateTextLog(this.state.botSelection.name + " attack has hit")
+            this.updateTextLog(this.state.botSelection.name + " attacked with "+ botMove[id].name)
         }
-        let attack = Math.floor(botMove[id].damage*acc*0.3)
+        let attack = Math.floor(botMove[id].damage*acc*0.2)
         let a = this.state.pokemonSelection.hp - attack
 
         let tempState = this.state.pokemonSelection
@@ -215,13 +215,11 @@ class Battle extends Component {
         if (acc>pokeMove[id].accuracy){
             acc = 0
             this.updateTextLog(this.state.userSelection.name + " attack has missed")
-            //
         }else {
             acc = 1
             this.updateTextLog(this.state.pokemonSelection.name + " attack has hit")
-            //
         }
-        let attack = Math.floor(pokeMove[id].damage*acc*0.3)
+        let attack = Math.floor(pokeMove[id].damage*acc*0.2)
         let a = this.state.botSelection.hp - attack
 
         let tempState = this.state.botSelection
@@ -264,7 +262,7 @@ class Battle extends Component {
                     {/*USER SECTION*/}
                     <div className="userBattleContainer">
                         <h3>{this.state.userSelection.name}</h3>
-                        <img className="pokemonImg userPokemonImg" src={this.state.pokemonSelection.sprite}/>
+                        <img className="pokemonImg userPokemonImg" src={this.state.pokemonSelection.spriteback}/>
                         <div className="userInfo">
                             <div className="info pokemonName">{this.capitalize(this.state.pokemonSelection.name)}</div>
                             <div className="info pokemonHp">HP: {this.state.pokemonSelection.hp}/{this.state.userHp}</div>

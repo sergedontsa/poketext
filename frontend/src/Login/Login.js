@@ -55,7 +55,6 @@ class Login extends Component{
         axios.post('http://localhost:8080/login', loginInfo)
             .then(response => {
                 localStorage.setItem('token', response.data.token)
-                // this.setState({toke: response.headers.token})
                 this.setState({loginMessage: response.data.body})
             })
             .catch(error => {
@@ -114,11 +113,12 @@ class Login extends Component{
                 <img className="mew" src={mew}/>
                 <img className="purp" src={purp}/>
                 <div className="Login">
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit} autoComplete="off">
                         <div className="formInput">
 
 
-                        <TextField variant="outlined" margin="normal" fullWidth  required
+                        <input required
+                               placeholder="username"
                             id="username"
                             label="Username"
                             name="username"
@@ -127,11 +127,9 @@ class Login extends Component{
                             onChange={this.handleChange}
                             autoFocus
                         />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
+                        <input
                             required
+                            placeholder="password"
                             name="password"
                             label="Password"
                             type="password"
@@ -141,20 +139,20 @@ class Login extends Component{
                             onChange={this.handleChange}
                         />
                         </div>
-                        <Button
+                        <button
                             onClick={this.handleSubmit}
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                        >Sign In</Button>
-                        <Button
+                        >Sign In</button>
+                        <button
                             onClick={this.handleRegister}
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                        >Register</Button>
+                        >Register</button>
                     </form>
                 </div>
 

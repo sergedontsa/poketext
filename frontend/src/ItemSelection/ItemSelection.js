@@ -76,14 +76,10 @@ class ItemSelection extends Component {
 
             <>
                 <div className="selectionRoot">
-
-                    <Card style={{
-                        maxWidth: 345
-                    }}>
+                    <Card>
                         <CardActionArea>
                             <CardMedia className="image"
                                 image={this.state.itemSelection.sprite}
-                                title="Contemplative Reptile"
                             />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
@@ -95,11 +91,11 @@ class ItemSelection extends Component {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <Button
+                            <button
                                 onClick={this.getItem}
                                 variant="contained"
                                 color="primary">
-                                Select Heal Potion</Button>
+                                Select Heal Potion</button>
                         </CardActions>
                     </Card>
                 </div>

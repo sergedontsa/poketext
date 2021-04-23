@@ -16,7 +16,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-// import { makeStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -40,7 +39,14 @@ class PokemonSelection extends Component {
     }
 
     componentDidMount = event => {
+        let botHead = {
+            headers:
+                {
+                    'token': 'bottoken'
+                }
+        }
         axios.delete('http://localhost:8080/pokemon/all', this.headers)
+        axios.delete('http://localhost:8080/pokemon/all', botHead)
     }
 
     choosePokemon = event => {
@@ -53,8 +59,8 @@ class PokemonSelection extends Component {
 
                 axios.get('http://localhost:8080/pokemon/0', this.headers)
                     .then(response => {
+                        console.log(response.data)
                         this.setState({pokemonSelection: response.data})
-                        // window.location.reload()
                     })
                 }
             )
@@ -85,13 +91,10 @@ class PokemonSelection extends Component {
         return (
             <>
                 <div className="selectionRoot" >
-
-                    <Card style={{maxWidth: 345}}>
+                    <Card>
                         <CardActionArea>
                             <CardMedia className="image"
                                 image={this.state.pokemonSelection.sprite}
-                                title="Contemplative Reptile"
-
                             />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
@@ -102,9 +105,8 @@ class PokemonSelection extends Component {
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                            <CardActions display='flex' justifyContent='center'>
-                            <Button onClick={this.choosePokemon} variant="contained" color="primary"> Randomize a
-                                Pokemon </Button>
+                        <CardActions display='flex' justifyContent='center'>
+                            <button onClick={this.choosePokemon} variant="contained" color="primary">Catch a Pokemon </button>
                         </CardActions>
                     </Card>
                 </div>

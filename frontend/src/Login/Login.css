@@ -7,6 +7,9 @@
         /*background-color: rgba(30,24,66, 0.6);*/
         background-color: rgba(255,255,255, 0.6);
         border-radius: 20px;
+        padding: 1em;
+
+
     }
 
     .Login form {
@@ -17,6 +20,10 @@
         padding-right: 20px;
         margin: 0 auto;
         max-width: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 
     .formInput {
@@ -25,6 +32,22 @@
 
     .Login Button {
         margin-top: 15px;
+    }
+
+    input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-family: "RosesareFF0000";
+        background-color: rgba(0,0,0,0);
+        padding: 10px;
+        border: 5px solid black;
+        border-radius: 5px;
+        font-size: 2em;
+        max-width: 300px;
+        margin-top: 1em;
+
     }
 
     TextField {

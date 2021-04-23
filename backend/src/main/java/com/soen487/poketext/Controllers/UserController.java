@@ -79,8 +79,6 @@ public class UserController extends Controller {
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getUsername()));
-        //String rs = "username : " +userDetails.getUsername() + " Password: " + userDetails.getPassword();
-        //return ResponseEntity.ok(new AuthenticationResponse(rs));
 
     }
 
@@ -115,9 +113,6 @@ public class UserController extends Controller {
                 existingUser.setToken(token);
                 this.userRepository.save(existingUser);
 
-//                HttpHeaders responseHeaders = new HttpHeaders();
-//                responseHeaders.add("Authorization", "Bearer "+existingUser.getToken());
-
                 respJSON.put("token", existingUser.getToken());
                 respJSON.put("body", "Login Successful");
 
@@ -131,27 +126,6 @@ public class UserController extends Controller {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respJSON.toString());
         }
     }
-
-
-//    @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @CrossOrigin
-//    public @ResponseBody ResponseEntity<String> login(@RequestBody User user){
-//        Optional<User> existingUser = this.userRepository.findByUsername(user.getUsername());
-//        if(existingUser.isPresent()) {
-//            String token = "dummytoken"; // <- generate JWT
-//            existingUser.get().setToken(token);
-//            HttpHeaders responseHeaders = new HttpHeaders();
-//            responseHeaders.set("token", token);
-//
-//            return ResponseEntity.ok()
-//                    .headers(responseHeaders)
-//                    .body("Login Successful");
-//
-//        } else{
-//            return ResponseEntity.status(401)
-//                    .body("Login Failed");
-//        }
-//    }
 
     @PostMapping(value="logout", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin

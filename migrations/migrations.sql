@@ -22,7 +22,8 @@ create table pokemon
     pokemonid int(11) not null auto_increment,
     name varchar(50) null,
     hp  int ,
-    sprite varchar(250) null,
+    sprite varchar(256) null,
+    spriteback varchar(256) null,
     userid int not null,
     primary key (pokemonid),
     foreign key (userid) REFERENCES user(userid)

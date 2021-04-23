@@ -16,19 +16,20 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-// import { makeStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import '../Selection.css'
+import './Stats.css'
 
 
 class Stats extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userSelection: {}
+            userSelection: {},
+            pokemonSelection: {}
         }
         this.headers = {
             headers: {
@@ -47,6 +48,12 @@ class Stats extends Component {
             .then(response => {
                 this.setState({userSelection: response.data})
             })
+            .then(
+                axios.get('http://localhost:8080/pokemon/0', this.headers)
+                    .then(response => {
+                        this.setState({pokemonSelection: response.data})
+                    })
+            )
 
     }
 
@@ -54,9 +61,9 @@ class Stats extends Component {
         let win = this.state.userSelection.wincount
         let loss = this.state.userSelection.losscount
         if(loss>0){
-            return win/loss*1.0;
+            return win/loss;
         } else if (win>0){
-            return 1;
+            return win;
 
         } else {
             return 0;
@@ -69,25 +76,22 @@ class Stats extends Component {
         return (
             <>
                 <div className="selectionRoot">
-
-                    <Card className="statsCard" >
-                        <CardActionArea>
-                            <CardContent className="statsCard">
-                                <Typography gutterBottom variant="h1" component="h1">
+                                <h1>
                                     {this.state.userSelection.username}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" variant="h2" component="p">
+                                </h1>
+                    <div className="userImage">
+                        <img className="trainerPoke" src={this.state.pokemonSelection.sprite}/>
+                        <img src="https://pa1.narvii.com/7152/346bbdfb5c063750db658e4e9c6ab5c649c01312r1-200-200_hq.gif"/>
+                </div>
+                <h2>
                                     W/L Ratio: {this.getRatio().toFixed(1)}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" variant="h3" component="p">
+                                </h2>
+                                <h3>
                                     Wins: {this.state.userSelection.wincount}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" variant="h3" component="p">
+                                </h3>
+                                <h3>
                                     Losses: {this.state.userSelection.losscount}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
+                                </h3>
                 </div>
             </>
         );

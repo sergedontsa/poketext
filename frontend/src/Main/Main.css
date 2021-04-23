@@ -15,4 +15,21 @@
     padding: 20px;
 }
 
+button {
+    background-color: rgb(197, 180, 216);
+    font-family: RosesareFF0000;
+    font-size: 2em;
+    border: none;
+    background-color: rgba(0,0,0,0);
+    color: black;
+    border: 5px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    min-width: 300px;
+}
+
+.container {
+    padding: 1em;
+}
+
 

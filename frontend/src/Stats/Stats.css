@@ -1,0 +1,10 @@
+.trainerPoke {
+    position: absolute;
+    top: 15%;
+    left: -25%;
+    width: 80%;
+}
+.userImage {
+    position: relative;
+    left: 10%;
+}

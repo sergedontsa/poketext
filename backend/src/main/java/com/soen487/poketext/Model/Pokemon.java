@@ -35,6 +35,10 @@ public class Pokemon {
     @Basic
     private String sprite;
 
+    @Column(name = "spriteback")
+    @Basic
+    private String spriteback;
+
     @ManyToOne(optional = false)
     @JoinColumn(name="userid")
     private User user;

@@ -10,51 +10,51 @@ export default function Main() {
                 className='flex-row'
                 to="/PokemonSelection"
                 style={{ textDecoration: 'none', color: 'white' }}>
-                    <Button
+                    <button
                         variant="contained"
                         color="primary">
                             Get Pokemon
-                    </Button>
+                    </button>
             </Link>
             <Link
                 className='flex-row'
                 to="/itemselection"
                 style={{ textDecoration: 'none', color: 'white' }}>
-                    <Button
+                    <button
                         variant="contained"
                         color="primary">
                             Get Items
-                    </Button>
+                    </button>
             </Link>
             <Link
                 className='flex-row'
                 to="/battle"
                 style={{ textDecoration: 'none', color: 'white' }}>
-                    <Button
+                    <button
                         variant="contained"
                         color="secondary">
                             Battle
-                    </Button>
+                    </button>
             </Link>
             <Link
                 className='flex-row'
                 to="/stats"
                 style={{ textDecoration: 'none', color: 'white' }}>
-                    <Button
+                    <button
                         variant="contained"
                         color="primary">
                             Check Stats
-                    </Button>
+                    </button>
             </Link>
             <Link
                 className='flex-row'
                 to=""
                 style={{ textDecoration: 'none', color: 'white' }}>
-                    <Button
+                    <button
                         variant="contained"
                         color="danger">
                             Logout
-                    </Button>
+                    </button>
             </Link>
         </div>
     );

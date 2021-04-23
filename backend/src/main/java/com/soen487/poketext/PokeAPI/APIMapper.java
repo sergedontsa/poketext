@@ -10,7 +10,8 @@ public class APIMapper {
     public Pokemon jsonToPokemon(JSONObject pokemonJSON){
         Pokemon pokemon = new Pokemon();
         pokemon.setName((String) pokemonJSON.get("name"));
-        pokemon.setSprite((String) pokemonJSON.getJSONObject("sprites").get("front_default"));
+        pokemon.setSprite((String) pokemonJSON.getJSONObject("sprites").getJSONObject("versions").getJSONObject("generation-v").getJSONObject("black-white").getJSONObject("animated").get("front_default"));
+        pokemon.setSpriteback((String) pokemonJSON.getJSONObject("sprites").getJSONObject("versions").getJSONObject("generation-v").getJSONObject("black-white").getJSONObject("animated").get("back_default"));
         pokemon.setHp(Integer.parseInt((String.valueOf(pokemonJSON.getJSONArray("stats")
                 .getJSONObject(0)
                 .get("base_stat")))));
